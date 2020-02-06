@@ -4,7 +4,7 @@ const PEOPLE_STATE_LATENT = 1;
 const PEOPLE_STATE_SICK = 2;
 const PEOPLE_STATE_DIE = 3;
 const INFINITESIMAL = 1e-5;
-let FRAME_TO_REAL = 60 * 60 * 10;// 对应的现实单位为秒, 一帧对应一小时
+let FRAME_TO_REAL = 60 * 60;// 对应的现实单位为秒, 一帧对应一小时
 const PEOPLE_COUNT_BASE = 2000;
 const PEOPLE_COUNT_RAND_MAX = 0;
 
@@ -202,9 +202,14 @@ class Simulator {
         let latentCount = 0;
         let sickCount = 0;
         let freezeCount = 0;
-        if (this.cureRate === .00002 && this.people[0].age > 1000 / 3600 * FRAME_TO_REAL && Math.random() < .001) {
+        // if (this.cureRate === .00002 && this.people[0].age > 1000 / 3600 * FRAME_TO_REAL && Math.random() < .001) {
+        //     this.cureRate *= 30;
+        // } else if (this.cureRate === .00002 * 30 && this.people[0].age > 1500 / 3600 * FRAME_TO_REAL && Math.random() < .001) {
+        //     this.cureRate *= 30;
+        // }
+        if (this.cureRate === .00002 && this.people[0].age > 1 && Math.random() < .001) {
             this.cureRate *= 30;
-        } else if (this.cureRate === .00002 * 30 && this.people[0].age > 1500 / 3600 * FRAME_TO_REAL && Math.random() < .001) {
+        } else if (this.cureRate === .00002 * 30 && this.people[0].age > 100000 / 3600 * FRAME_TO_REAL && Math.random() < .001) {
             this.cureRate *= 30;
         }
         for (let i = 0; i < this.people.length; i++) {
@@ -276,7 +281,7 @@ class Simulator {
         this.ctx.fillText("健康人数: " + (this.people.length - allSickCount), 5, 85);
         this.ctx.fillText("总患病人数: " + allSickCount, 5, 105);
         this.ctx.fillText("潜伏期人数: " + latentCount, 5, 125);
-        this.ctx.fillText("发病人数: " + sickCount, 5, 145);
+        this.ctx.fillText("发病人数: " + (sickCount + freezeCount), 5, 145);
         this.ctx.fillText("累计治愈人数: " + this.cureCount, 5, 165);
         this.ctx.font = "30px SimHei";
         this.ctx.fillText("图例", 5, 210);
@@ -373,7 +378,8 @@ function getPosition(maxL) {
     return [r * Math.cos(angle), r * Math.sin(angle)];
 }
 function getRecPosition(maxL) {
-    let r = Math.sign(Math.random() - 0.5) * normalDistribution(0.2, Math.random()) * maxL / 2.5 * 0.2 + maxL * 1.1;
+    let r = Math.sign(Math.random() - 0.5) * normalDistribution(0.2, Math.random()) * maxL / 2.5 * 0.2 + maxL * .3;
+    // console.log(maxL / 2.5 * 0.2, normalDistribution(0.2, Math.random()));
     let angle = Math.random() * Math.PI * 2;
     this.x = r * Math.cos(angle);
     this.y = r * Math.sin(angle);
@@ -421,6 +427,9 @@ class Person {
         if (!(this.age % Math.max(Math.floor(20 / FRAME_TO_REAL * 3600), 2))) {
             this.target = getMoveTarget(this.maxL, turnover);
         }
+        while (this.target.length < 2) {
+            this.target = getMoveTarget(this.maxL, turnover);
+        }
         let target = this.target;
         let offsetX = target[0] - this.x;
         let offsetY = target[1] - this.y;
@@ -434,11 +443,6 @@ class Person {
         if (this.state === PEOPLE_STATE_SICK) {
             offsetX *= 0.2;
             offsetY *= 0.2;
-        }
-        if (isNaN(offsetX) || isNaN(offsetY)) {
-            this.target = getMoveTarget(this.maxL, turnover);
-            this.move(simulator);
-            return;
         }
         this.x += offsetX;
         this.y += offsetY;
@@ -468,6 +472,9 @@ class Person {
     recovery() {
         this.state = PEOPLE_STATE_HEALTH;
         this.infectedAge = NaN;
+        let pos = getRecPosition(this.maxL);
+        this.x = pos[0];
+        this.y = pos[1];
     }
 }
 Person.waitVals = ["normalDistribution(0.1, Math.random()) > .9", "Math.random() > .7", "Math.random() > .5", "Math.random() > .8"];

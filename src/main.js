@@ -1,6 +1,7 @@
+let simulator;
 function main() {
     let canvas = document.querySelector("#main");
-    let simulator = new Simulator(canvas);
+    simulator = new Simulator(canvas);
     let controller_tab = document.querySelector("#controller-tab");
     let inputs = document.querySelector("#inputs").children;
     canvas.width = window.innerWidth;
