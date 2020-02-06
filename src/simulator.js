@@ -266,6 +266,8 @@ class Simulator {
         this.ctx.font = "25px SimHei";
         this.ctx.fillStyle = "#fff";
         this.ctx.fillText("2019-nCoV接触传染模型", this.canvas.width / 2, 2);
+        this.ctx.font = "15px SimHei";
+        this.ctx.fillText("by 郑元昊", this.canvas.width / 2, 27);
         this.ctx.textAlign = "left";
         this.ctx.font = "20px SimHei";
         let date = (new Date(this.now));
