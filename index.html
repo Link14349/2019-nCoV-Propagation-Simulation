@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2019-nCoV接触传染模型</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript" src="src/main.js"></script>
+    <script type="text/javascript" src="src/simulator.js"></script>
+    <link type="text/css" rel="stylesheet" href="stylesheets/index.css"/>
+</head>
+<body>
+<canvas id="main"></canvas>
+<button id="controller-button">管控措施</button>
+<div id="controller-tab">
+    <h1>管控措施</h1>
+    <div id="inputs">
+        <div class="input-box">
+            <span>医院响应速度/h</span>
+            <input type="text" id="hospResTime"/>
+        </div>
+        <div class="input-box">
+            <span>医院床位总量&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="ALL_BEDS"/>
+        </div>
+        <div class="input-box">
+            <span>病毒潜伏期/d&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="virusLatentTime"/>
+        </div>
+        <div class="input-box">
+            <span>人员流动率&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="turnover"/>
+        </div>
+        <div class="input-box">
+            <span>接触感染率&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <input type="text" id="broadRate"/>
+        </div>
+    </div>
+    <button id="back">返回</button>
+    <button id="continue">继续</button>
+    <button id="restart">重新开始</button>
+    <div id="info">
+        <p style="text-align: center">模拟病毒传播感染的过程</p>
+        <small style="text-align: center">Copyright (c) 2020 郑元昊</small>
+    </div>
+</div>
+</body>
+</html>
