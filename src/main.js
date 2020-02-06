@@ -38,6 +38,9 @@ function main() {
             let raw = simulator[input.id];
             if (transNum(input.value) === null) simulator[input.id] = simulator[input.id];
             else {
+                if (input.id === "ALL_BEDS") {
+                    if (transNum(input.value) < simulator[input.id]) continue;
+                }
                 simulator[input.id] = transNum(input.value);
                 if (input.id === "hospResTime") {
                     simulator[input.id] *= 60;
