@@ -1,4 +1,6 @@
 const express = require('express');
+let path = require("path");
+let dirname = path.resolve('./');
 
 let server = express();
 server.listen(3000, function () {
@@ -6,15 +8,15 @@ server.listen(3000, function () {
 });
 
 server.get('/', (req, res) => {
-    res.sendFile("/Users/zhengyuanhao/Documents/Virus/index.html")
+    res.sendFile(path.join(dirname, "/index.html"))
 });
 server.get('/src/main.js', (req, res) => {
-    res.sendFile("/Users/zhengyuanhao/Documents/Virus/src/main.js")
+    res.sendFile(path.join(dirname, '/src/main.js'))
 });
 server.get('/src/simulator.js', (req, res) => {
-    res.sendFile("/Users/zhengyuanhao/Documents/Virus/src/simulator.js")
+    res.sendFile(path.join(dirname, '/src/simulator.js'))
 });
 
 server.get('/stylesheets/index.css', (req, res) => {
-    res.sendFile("/Users/zhengyuanhao/Documents/Virus/stylesheets/index.css")
+    res.sendFile(path.join(dirname, '/stylesheets/index.css'));
 });

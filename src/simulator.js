@@ -4,7 +4,7 @@ const PEOPLE_STATE_LATENT = 1;
 const PEOPLE_STATE_SICK = 2;
 const PEOPLE_STATE_DIE = 3;
 const INFINITESIMAL = 1e-5;
-let FRAME_TO_REAL = 60 * 60;// 对应的现实单位为秒, 一帧对应一小时
+let FRAME_TO_REAL = 60 * 60 * 10;// 对应的现实单位为秒, 一帧对应一小时
 const PEOPLE_COUNT_BASE = 2000;
 const PEOPLE_COUNT_RAND_MAX = 0;
 
@@ -367,6 +367,13 @@ function normalDistribution(o, y) {
 }
 function getPosition(maxL) {
     let r = Math.sign(Math.random() - 0.5) * normalDistribution(0.2, Math.random()) * maxL / 2.5;
+    let angle = Math.random() * Math.PI * 2;
+    this.x = r * Math.cos(angle);
+    this.y = r * Math.sin(angle);
+    return [r * Math.cos(angle), r * Math.sin(angle)];
+}
+function getRecPosition(maxL) {
+    let r = Math.sign(Math.random() - 0.5) * normalDistribution(0.2, Math.random()) * maxL / 2.5 * 0.2 + maxL * 1.1;
     let angle = Math.random() * Math.PI * 2;
     this.x = r * Math.cos(angle);
     this.y = r * Math.sin(angle);
